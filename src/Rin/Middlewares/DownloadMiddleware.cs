@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Net.Http.Headers;
 using Rin.Core;
@@ -25,8 +25,16 @@ namespace Rin.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var result = await _storage.TryGetDetailByIdAsync(context.Request.Query["id"]);
-            var resultBody = await _storage.TryGetRequestBodyByIdAsync(context.Request.Query["id"]);
+            string? queryId = context.Request.Query["id"];
+
+            if (queryId == null)
+            {
+                context.Response.StatusCode = 404;
+                return;
+            }
+
+            var result = await _storage.TryGetDetailByIdAsync(queryId);
+            var resultBody = await _storage.TryGetRequestBodyByIdAsync(queryId);
             var entry = result.Value;
 
             if (!result.Succeed || !resultBody.Succeed || entry == null)
@@ -58,8 +66,16 @@ namespace Rin.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var result = await _storage.TryGetDetailByIdAsync(context.Request.Query["id"]);
-            var resultBody = await _storage.TryGetResponseBodyByIdAsync(context.Request.Query["id"]);
+            string? queryId = context.Request.Query["id"];
+
+            if (queryId == null)
+            {
+                context.Response.StatusCode = 404;
+                return;
+            }
+
+            var result = await _storage.TryGetDetailByIdAsync(queryId);
+            var resultBody = await _storage.TryGetResponseBodyByIdAsync(queryId);
             var entry = result.Value;
 
             if (!result.Succeed || !resultBody.Succeed || entry == null)

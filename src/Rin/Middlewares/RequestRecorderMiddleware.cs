@@ -112,7 +112,7 @@ namespace Rin.Middlewares
             {
                 Id = Guid.NewGuid().ToString(),
                 IsHttps = request.IsHttps,
-                Host = request.Host.Value,
+                Host = request.Host.Value!,
                 QueryString = request.QueryString.Value,
                 Path = request.Path,
                 Method = request.Method,

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.IO.Pipelines;
 using System.Threading;
@@ -48,5 +48,13 @@ namespace Rin.IO
         {
             return _pipeWriter.FlushAsync(cancellationToken);
         }
+
+#if NET9_0
+        
+        public override bool CanGetUnflushedBytes => _pipeWriter.CanGetUnflushedBytes;
+
+        public override long UnflushedBytes => _pipeWriter.UnflushedBytes;
+
+#endif
     }
 }

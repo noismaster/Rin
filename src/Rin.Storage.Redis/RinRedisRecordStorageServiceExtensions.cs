@@ -1,8 +1,5 @@
 #nullable enable
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Rin.Core.Record;
 using Rin.Extensions;
@@ -21,7 +18,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IRinBuilder UseRedisStorage(this IRinBuilder builder, Action<RedisRecordStorageOptions>? configure = null)
         {
             builder.Services.AddOptions<RedisRecordStorageOptions>();
-            builder.Services.Configure<RedisRecordStorageOptions>(configure);
+
+            if (configure != null) builder.Services.Configure<RedisRecordStorageOptions>(configure);
 
             builder.Services.Replace(new ServiceDescriptor(typeof(IRecordStorage), typeof(RedisRecordStorage), ServiceLifetime.Singleton));
 

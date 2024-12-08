@@ -26,8 +26,8 @@ namespace Rin.Middlewares.Api
                 await context.Response.WriteAsync("Missing required parameter: id");
                 return;
             }
-
-            var result = await _storage.TryGetDetailByIdAsync(id);
+            
+            var result = await _storage.TryGetDetailByIdAsync(id!);
             if (!result.Succeed || result.Value == null)
             {
                 context.Response.StatusCode = 404;

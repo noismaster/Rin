@@ -44,9 +44,10 @@ namespace Rin.Hubs.Payloads
                 }
             }
 
-            if (payloadBodyContentType.StartsWith("text/") ||
+            if (payloadBodyContentType != null && (
+                payloadBodyContentType.StartsWith("text/") ||
                 payloadBodyContentType.StartsWith("application/json") ||
-                payloadBodyContentType.StartsWith("application/x-www-form-urlencoded"))
+                payloadBodyContentType.StartsWith("application/x-www-form-urlencoded")))
             {
                 return new BodyDataPayload(Encoding.UTF8.GetString(payloadBody), false, transformedBodyContentType);
             }
